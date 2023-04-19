@@ -9,6 +9,9 @@ variables:
   ResultsFile: 'Results/junitReport.xml'
 
 steps:
+- task: Checkout@2
+  displayName: 'Checkout repository'
+
 - task: Npm@1
   inputs:
     command: 'custom'
