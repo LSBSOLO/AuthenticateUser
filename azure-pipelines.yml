@@ -1,0 +1,29 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  PostmanCollection: 'AuthenticateUser/AuthenticateUser.json'
+  ResultsFile: 'Results/junitReport.xml'
+
+steps:
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: '$(Build.Repository.LocalPath)'
+    customCommand: 'install -g newman'
+  displayName: 'Install newman'
+
+- task: CmdLine@2
+  inputs:
+    script: 'newman run $(PostmanCollection) --reporters cli,junit --reporter-junit-export $(ResultsFile)'
+    workingDirectory: ''
+  displayName: 'Run Integration Tests'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'Results/*.xml'
+    searchFolder: '$(Build.Repository.LocalPath)'
