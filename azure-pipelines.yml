@@ -9,7 +9,7 @@ variables:
   ResultsFile: 'Results/junitReport.xml'
 
 steps:
-- task: Checkout@2
+- checkout: self
   displayName: 'Checkout repository'
 
 - task: Npm@1
