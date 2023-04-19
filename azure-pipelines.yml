@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  PostmanCollection: 'AuthenticateUser/AuthenticateUser.json'
+  PostmanCollection: '$(Build.Repository.LocalPath)/AuthenticateUser/AuthenticateUser.json'
   ResultsFile: 'Results/junitReport.xml'
 
 steps:
@@ -21,9 +21,10 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'newman run $(PostmanCollection) --reporters cli,junit --reporter-junit-export $(ResultsFile)'
+    script: 'newman run "$(PostmanCollection)" --reporters cli,junit --reporter-junit-export $(ResultsFile)'
     workingDirectory: ''
   displayName: 'Run Integration Tests'
+
 
 - task: PublishTestResults@2
   inputs:
